@@ -3,7 +3,10 @@
     <string name="verifyPhoneNumber"><![CDATA[Verify <b>Mobile</b>]]></string>
     <string name="alreadyAMember"><![CDATA[Already a member ? <b>Login Here .</b>]]></string>
     <string name="OTPVerification"><![CDATA[ <b>OTP </b> verification]]></string>
-    <string name="recent_news">Da Nang International Fireworks Festival 2017</string>
-    <string name="in_news">Da Nang International Fireworks Festival 2017Update: Dec 08, 2016 (TITC) - Da Nang International Fireworks Festival 2017 (DIFF 2017) with the theme “Shining Marble Mountains” will take place for two months, from 29 April to 24 June 2017 with the aim to Da Nang become a unique cultural festival tourism space. </string>
-    <string name="publish_date">2017-04-30 12:13:14</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="edittext_hint"><font size="15">For how Much time you want to keep this. You can delete it before .</font></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

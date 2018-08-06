@@ -32,71 +32,79 @@
                 android:layout_width="118dp"
                 android:layout_height="165dp"
                 android:background="@color/colorPrimaryDarker"
-                android:gravity="center"
+               android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">
                 <TextView
-                    android:id="@+id/crimeDateTV"
+                    android:id="@+id/lostItemTypeTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="serif"
                     android:gravity="center"
-                    android:text="25/11/2017"
+                    android:text="Hsc certificate"
+                    android:maxLines="2"
                     android:textColor="#FFFFFF"
-                    android:textSize="21sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/crimeTimeTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:text="19:30"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="normal" />
-                <TextView
-                    android:id="@+id/crimePlaceTV"
+                    android:id="@+id/lostItemPlaceTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="Rampura,dhaka"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:maxLines="2"
                     android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/crimeTypeTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                <LinearLayout
                     android:gravity="center"
-                    android:text="Harresment, Rape, Sex,"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="normal"/>
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/ic_action_reward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/lostItemRewardTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:drawablePadding="0dp"
+                        android:gravity="center"
+                        android:text="No reward"
+                        android:maxLines="2"
+                        android:layout_marginBottom="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textStyle="normal"/>
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:paddingLeft="9dp"
                 android:paddingRight="2dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/crimeDescTV"
+                    android:layout_gravity="center"
+                    android:id="@+id/lostItemDetailedDescriptionTV"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="115dp"
+                    android:layout_height="112dp"
                     android:maxLines="6"
                     android:text="Iwas going vvb\nggfdg\fg\fgffg\nkgodkjf djkv xdj vlcd jlkgl dfgjd fksljg ksdf
 gdflk gdlsfg kldg dkgjfdsklg gjjfdslgnsfd
  fgl..."
                     android:textColor="#000000"
-                    android:textSize="15sp" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -125,7 +133,7 @@ gdflk gdlsfg kldg dkgjfdsklg gjjfdslgnsfd
                                 android:id="@+id/postDateTV"
                                 android:layout_marginLeft="4dp"
                                 android:layout_marginTop="0dp"
-                                android:textSize="10sp"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:text="25/12/2019"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -134,7 +142,7 @@ gdflk gdlsfg kldg dkgjfdsklg gjjfdslgnsfd
                                 android:id="@+id/postTimeTV"
                                 android:layout_marginLeft="4dp"
                                 android:layout_marginTop="0dp"
-                                android:textSize="10sp"
+                              android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:text="21:12 "
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -156,11 +164,12 @@ gdflk gdlsfg kldg dkgjfdsklg gjjfdslgnsfd
                             android:layout_height="25dp" />
 
                         <TextView
+                            android:maxLines="2"
                             android:padding="1dp"
                             android:id="@+id/postedByTV"
                             android:layout_marginLeft="3dp"
                             android:layout_marginTop="0dp"
-                            android:textSize="10sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                             android:layout_gravity="center"
                             android:text="anonymouskjhjhgfhf"
                             android:layout_width="wrap_content"

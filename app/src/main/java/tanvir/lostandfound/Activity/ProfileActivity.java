@@ -1,7 +1,9 @@
-package tanvir.lostandfound;
+package tanvir.lostandfound.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import tanvir.lostandfound.R;
 
 public class ProfileActivity extends AppCompatActivity {
 

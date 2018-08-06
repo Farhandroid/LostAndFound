@@ -7,7 +7,7 @@
     android:focusable="false"
     android:focusableInTouchMode="true"
     android:background="@color/activityBackground"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -58,6 +58,8 @@
         app:layout_constraintVertical_bias="0.513" />
 
     <Button
+        android:clickable="true"
+        android:onClick="startPinVerificationActivity"
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -93,7 +95,7 @@
         android:onClick="startuserRegistrationActivity"
         android:id="@+id/alreadyAMemberTV"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:textColor="@color/primaryColorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/phoneNumberRightGL"
@@ -101,5 +103,7 @@
         app:layout_constraintStart_toStartOf="@+id/phoneNumberLeftGL"
         app:layout_constraintTop_toBottomOf="@+id/button"
         app:layout_constraintVertical_bias="0.045" />
+
+
 
 </android.support.constraint.ConstraintLayout>
