@@ -38,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startuserRegistrationActivity(View view) {
-       enterOrBackFromActivity.startuserRegistrationActivity(this);
+       ///enterOrBackFromActivity.startUserLoginActivity(this);
+        enterOrBackFromActivity.startuserRegistrationActivity(this);
+        ///enterOrBackFromActivity.startUserPostCreationActivity(this);
         //sendEmail();
     }
 

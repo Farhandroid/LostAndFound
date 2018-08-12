@@ -16,6 +16,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDNhutsHSWVUMGqJz4SnkQ0RRLow3XV3io" />
+
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +29,8 @@
         <activity android:name=".Activity.ProfileActivity" />
         <activity android:name=".Activity.HomePage" />
         <activity android:name=".Activity.UserPostCreationActivity" />
-        <activity android:name=".Activity.UserPostViewActivity"></activity>
+        <activity android:name=".Activity.UserPostViewActivity" />
+        <activity android:name=".Activity.UserLoginActivity"></activity>
     </application>
 
 </manifest>
