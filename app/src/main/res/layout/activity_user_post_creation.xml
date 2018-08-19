@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackground"
+    tools:context=".Activity.UserPostCreationActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardViewLowerGLInPostView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.38">
+            <requestFocus/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPagerInUserPostCreation"
+                android:layout_width="match_parent"
+                android:background="@color/black"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp" />
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/CirclePageIndicatorInUserPostCreation"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="20dp"
+                android:background="#4D000000"
+                android:foregroundGravity="center"
+                android:gravity="bottom"
+                android:paddingTop="8dp"
+                app:centered="true"
+                app:fillColor="#FFFFFF"
+                app:pageColor="@color/colorPrimaryDark"
+                app:snap="false" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="26dp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:onClick="showImagePickerDialogInUserItemLostActivity"
+                android:src="@drawable/image_add_button"
+                app:fabSize="auto"
+                app:layout_anchor="@id/viewPagerInUserPostCreation"
+                app:layout_anchorGravity="bottom|right" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/cardViewLowerGLInPostView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="301dp" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:contentPadding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardViewLowerGLInPostView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:drawableLeft="@drawable/ic_action_tag"
+                        android:id="@+id/LostItemTypeET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="What Have you lost ? Ex : Phone , Car etc"
+                        android:textSize="@dimen/hint_text_size" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:drawableLeft="@drawable/ic_action_location"
+                        android:id="@+id/lostItemPlaceET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="Where Have you lost ?"
+                        android:onClick="showPlaceAutocompleteIntent"
+                        android:textSize="@dimen/hint_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:drawableLeft="@drawable/ic_action_calender_colored"
+                            android:id="@+id/lostItemDateET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="Date "
+                            android:onClick="showDatePickerDialog" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:drawableLeft="@drawable/ic_action_time_colored"
+                            android:id="@+id/lostItemTimeET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="Time ?"
+                            android:onClick="showTimePickerDialog" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:drawableLeft="@drawable/ic_action_star"
+                        android:id="@+id/LostItemRewardET"
+                        android:inputType="numberDecimal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Reward . If none please provide 0 "
+                        android:textSize="@dimen/hint_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:drawableLeft="@drawable/ic_action_detailes"
+                        android:id="@+id/lostItemTimeETDetailedDescriptionET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Detailed Desciption "
+                        android:textSize="@dimen/hint_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:text="Share"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="sendUserLostItemDataToServer" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.constraint.ConstraintLayout
+  >
+
+</ScrollView>
+

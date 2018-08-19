@@ -275,7 +275,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
 
     private void sendUserRegistrationInformationToServer()
     {
-
         ApiConfig apiConfig = AppConfig.getRetrofit().create(ApiConfig.class);
         MultipartBody.Part fileToUpload=null;
         RequestBody fileName=null;
@@ -290,7 +289,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 profilePictureCounter="1";
                 try {
                     file=new Compressor(context)
-                            .setQuality(75)
+                            .setQuality(60)
                             .setMaxHeight(640)
                             .setMaxHeight(480)
                             .compressToFile(cameraFile);
@@ -313,7 +312,15 @@ public class UserRegistrationActivity extends AppCompatActivity {
             Log.d("noImageSelected","noImageSelected");
         }
 
-        Call<ServerResponse> sendUserInformationCall= apiConfig.sendUserInformation(fileToUpload,fileName,name,userName,email,getRandomNumber(),password,profilePictureCounter);
+        RequestBody nameRB = RequestBody.create(MediaType.parse("text./plain"),name);
+        RequestBody userNameRB = RequestBody.create(MediaType.parse("text./plain"),userName);
+        RequestBody emailRB = RequestBody.create(MediaType.parse("text./plain"),email);
+        RequestBody mobileNoRB = RequestBody.create(MediaType.parse("text./plain"),getRandomNumber());
+        RequestBody paswordRB = RequestBody.create(MediaType.parse("text./plain"),password);
+        RequestBody profilePicCounterRB = RequestBody.create(MediaType.parse("text/plain"),profilePictureCounter);
+
+        //Call<ServerResponse> sendUserInformationCall= apiConfig.sendUserInformation(fileToUpload,fileName,name,userName,email,getRandomNumber(),password,profilePictureCounter);
+        Call<ServerResponse> sendUserInformationCall= apiConfig.sendUserInformationRequestBody(fileToUpload,fileName,nameRB,userNameRB,emailRB,mobileNoRB,paswordRB,profilePicCounterRB);
         sendUserInformationCall.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
@@ -334,4 +341,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

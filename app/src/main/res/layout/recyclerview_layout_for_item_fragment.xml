@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="0dp"
+    android:id="@+id/lostItemRVLL"
     android:focusableInTouchMode="false"
     android:focusable="false"
     android:focusedByDefault="false"
@@ -36,7 +37,7 @@
                 android:orientation="vertical"
                 android:padding="5dp">
                 <TextView
-                    android:id="@+id/lostItemTypeTV"
+                    android:id="@+id/itemTypeTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -47,7 +48,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/lostItemPlaceTV"
+                    android:id="@+id/itemPlaceTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -64,11 +65,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:id="@+id/rewardIVRV"
                         android:src="@drawable/ic_action_reward"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/lostItemRewardTV"
+                        android:id="@+id/itemRewardTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -95,7 +97,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:id="@+id/lostItemDetailedDescriptionTV"
+                    android:id="@+id/itemDetailedDescriptionTV"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="112dp"

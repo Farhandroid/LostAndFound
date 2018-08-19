@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackground"
+    tools:context=".Activity.UserPostCreationActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/barrier2">
+
+            <requestFocus />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPagerInUserPostCreation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:background="@color/black" />
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/CirclePageIndicatorInUserPostCreation"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="20dp"
+                android:background="#4D000000"
+                android:foregroundGravity="center"
+                android:gravity="bottom"
+                android:paddingTop="8dp"
+                app:centered="true"
+                app:fillColor="#FFFFFF"
+                app:pageColor="@color/colorPrimaryDark"
+                app:snap="false" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="26dp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:onClick="showImagePickerDialogInUserItemLostActivity"
+                android:src="@drawable/image_add_button"
+                app:fabSize="auto"
+                app:layout_anchor="@id/viewPagerInUserPostCreation"
+                app:layout_anchorGravity="bottom|right" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
+

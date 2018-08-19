@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackground"
+    tools:context=".Activity.UserPostViewActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:focusableInTouchMode="true"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardViewLowerGLInPostView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.38">
+            <requestFocus/>
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/CirclePageIndicatorInUserPostView"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="#4D000000"
+                android:foregroundGravity="center"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:paddingTop="8dp"
+                app:centered="true"
+                app:fillColor="#FFFFFF"
+                app:pageColor="@color/colorPrimaryDark"
+                app:snap="false" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPagerInUserPostView"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/cardViewLowerGLInPostView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="310dp" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="8dp"
+            app:layout_constraintTop_toTopOf="@+id/cardViewLowerGLInPostView"
+         >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/person2"
+                        />
+                    <LinearLayout
+                        android:baselineAligned="true"
+                        android:layout_marginLeft="8dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Farhan"
+                            android:id="@+id/userNameInPOSTview"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/postTimeInPOSTview"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:text="12 : 38 AM"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/postDateInPOSTview"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                            android:layout_width="wrap_content"
+                            android:text="26/5/11"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/itemTypeInPOSTview"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/ic_action_tag"
+                    android:text="Car"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/itemTimeInPOSTview"
+                    android:drawableLeft="@drawable/ic_action_time_colored"
+                    android:text="12:03 PM"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/itemLocationInPOSTview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_action_location"/>
+
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/itemDateInPOSTview"
+                    android:drawableLeft="@drawable/ic_action_calender_colored"
+                    android:text="21/12/2018"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/itemRewardInPOSTview"
+                    android:drawableLeft="@drawable/ic_action_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/ic_action_detailes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/itemtDescriptionInPOSTview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

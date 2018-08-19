@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    android:background="@color/activityBackground"
+    tools:context=".Activity.HomePage">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+                <include
+                    android:id="@+id/toolbarLayoutForFoundFragment"
+                    layout="@layout/toolbar_layout_for_found_fragment"
+                    app:layout_collapseMode="parallax" />
+
+                <include
+                    android:id="@+id/toolbarLayoutForLostFrahment"
+                    layout="@layout/toolbar_layout_for_lost_fragment"
+                    android:visibility="gone"
+                    app:layout_collapseMode="parallax" />
+
+                <include
+                    android:id="@+id/toolbarLayoutInPlaceInfoFragmentWithPlaceName"
+                    layout="@layout/toolbar_layout_in_place_info_fragment_with_place_name"
+                    android:visibility="gone"
+                    app:layout_collapseMode="parallax" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TabLayoutTheme"
+                app:tabGravity="fill"
+                app:tabIndicatorHeight="4dp"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@android:color/black" />
+
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/homePageFAB"
+            android:onClick="startLostOrFoundPostCreationActivity"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="18dp"
+            app:fabSize="normal"
+            android:src="@drawable/ic_action_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:id="@+id/navigationView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/navigation_drawer_header"
+        >
+
+    </android.support.design.widget.NavigationView>
+
+
+</android.support.v4.widget.DrawerLayout>
