@@ -19,9 +19,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\USER\Desktop\Lost And Found\Icon\user-silhouette.png" />
-                                      <entry key="outputName" value="ic_action_profile" />
-                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="imageAsset" value="C:\Users\HP\Desktop\LostAndFound\menu.png" />
+                                      <entry key="outputName" value="ic_action_menu" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="455a64" />
                                     </map>
                                   </option>

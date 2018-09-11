@@ -29,6 +29,13 @@ public class EnterOrBackFromActivity {
 
     }
 
+    public void backToHomePageActivity(Activity activity) {
+        Intent myIntent = new Intent(activity, HomePage.class);
+        activity.startActivity(myIntent);
+        activity.overridePendingTransition(R.anim.right_in, R.anim.right_out);
+
+    }
+
     public void startuserRegistrationActivity(Activity activity) {
         Intent myIntent = new Intent(activity, UserRegistrationActivity.class);
         activity.startActivity(myIntent);

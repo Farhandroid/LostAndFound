@@ -1,4 +1,4 @@
-package tanvir.lostandfound.HelperClass;
+package tanvir.lostandfound.PojoClass;
 
 public class ServerResponseOfRetrievePostImage {
 

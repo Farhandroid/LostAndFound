@@ -145,6 +145,11 @@ public class HomePage extends AppCompatActivity {
             startActivity(myIntent);
             overridePendingTransition(R.anim.left_in, R.anim.left_out);
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

@@ -1,20 +1,30 @@
 package tanvir.lostandfound.Activity;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.Gson;
 import com.viewpagerindicator.CirclePageIndicator;
 import java.util.ArrayList;
+
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tanvir.lostandfound.Adapter.SwipeAdapterForPostView;
+import tanvir.lostandfound.HelperClass.EnterOrBackFromActivity;
 import tanvir.lostandfound.HelperClass.ProgressDialog;
-import tanvir.lostandfound.HelperClass.ServerResponseOfRetrievePostImage;
+import tanvir.lostandfound.PojoClass.ServerResponse;
+import tanvir.lostandfound.PojoClass.ServerResponseOfRetrievePostImage;
 import tanvir.lostandfound.Networking.ApiConfig;
 import tanvir.lostandfound.Networking.AppConfig;
 import tanvir.lostandfound.PojoClass.FoundItemPost;
@@ -26,9 +36,13 @@ public class UserPostViewActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     SwipeAdapterForPostView customSwipeAdapter;
     ViewPager viewPager;
-    ArrayList<String> imagePath;
+    ArrayList<String> imageNameList;
     TextView itemTypeTV, itemLocationTV , itemDateTV , itemTimeTV , itemRewardTV , itemDescriptionTV , userNameTV;
     String cameFromWhere;
+    FloatingActionButton userPoatUpdateFAB;
+    String postDateAndTime , userName ,itemCategory,howManyImage;
+    private LostItemPost lostItemPost;
+    private FoundItemPost foundItemPost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +58,11 @@ public class UserPostViewActivity extends AppCompatActivity {
         itemLocationTV=findViewById(R.id.itemLocationInPOSTview);
         userNameTV=findViewById(R.id.userNameInPOSTview);
         viewPager=findViewById(R.id.viewPagerInUserPostView);
-        imagePath = new ArrayList<>();
+        userPoatUpdateFAB=findViewById(R.id.postUpdateFAB);
+        imageNameList = new ArrayList<>();
 
         retriveCameFromWhereFromIntent();
         initialView();
-        retriveDataFromIntent();
     }
 
     public void getItemPostImageInformationFromServer(String userName, String postDateAndTime)
@@ -72,7 +86,7 @@ public class UserPostViewActivity extends AppCompatActivity {
                 {
                     for (int i=0;i<serverResponseOfRetrievePostImageArrayList.size();i++)
                     {
-                        imagePath.add(serverResponseOfRetrievePostImageArrayList.get(i).getImageName());
+                        imageNameList.add(serverResponseOfRetrievePostImageArrayList.get(i).getImageName());
                     }
                     Log.d("retrofitResponse",serverResponseOfRetrievePostImageArrayList.get(0).getMessage());
                     //setSwaipeAdapter();
@@ -88,34 +102,42 @@ public class UserPostViewActivity extends AppCompatActivity {
             }
         });
     }
-    
-    public void retriveDataFromIntent()
-    {
-        try {
-            if (cameFromWhere.contains("LostFragment"))
-            {
-                LostItemPost lostItemPost;
-                lostItemPost= (LostItemPost) getIntent().getSerializableExtra("userLostItemPostData");
-                setLostItemData(lostItemPost);
-            }
-            else
-            {
-                FoundItemPost foundItemPost;
-                foundItemPost= (FoundItemPost) getIntent().getSerializableExtra("userFoundItemPostData");
-                setFoundItemData(foundItemPost);
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("postDateAndTimeError",e.toString());
-        }
+    public void retrieveLostItemData()
+    {
+        LostItemPost lostItemPost;
+        lostItemPost= (LostItemPost) getIntent().getSerializableExtra("userLostItemPostData");
+        this.lostItemPost=lostItemPost;
+        setLostItemData(lostItemPost);
+    }
+
+    public void retrieveFoundItemData()
+    {
+        FoundItemPost foundItemPost;
+        foundItemPost= (FoundItemPost) getIntent().getSerializableExtra("userFoundItemPostData");
+        this.foundItemPost=foundItemPost;
+        setFoundItemData(foundItemPost);
     }
 
     public void retriveCameFromWhereFromIntent()
     {
-
         try {
             cameFromWhere=getIntent().getStringExtra("cameFromWhere");
+
+            if (cameFromWhere.contains("FoundFragmentUserProfileActivity") ||cameFromWhere.contains("LostFragmentUserProfileActivity"))
+                userPoatUpdateFAB.setVisibility(View.VISIBLE);
+            else
+                userPoatUpdateFAB.setVisibility(View.GONE);
+
+            if (cameFromWhere.contains("LostFragment"))
+            {
+                retrieveLostItemData();
+            }
+            else
+            {
+                retrieveFoundItemData();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("errorcameFromWhere",e.toString());
@@ -138,17 +160,21 @@ public class UserPostViewActivity extends AppCompatActivity {
         {
             getItemPostImageInformationFromServer(lostItemData.getUserName(),lostItemData.getPostDateAndTime());
         }
+
+        itemCategory="LostItem";
+        howManyImage=lostItemData.getHowManyImage();
+        userName=lostItemData.getUserName();
+        postDateAndTime= lostItemData.getPostDateAndTime();
     }
 
     public void initialView() {
-        customSwipeAdapter = new SwipeAdapterForPostView(this, imagePath,cameFromWhere);
+        customSwipeAdapter = new SwipeAdapterForPostView(this, imageNameList,cameFromWhere);
         viewPager.setAdapter(customSwipeAdapter);
         CirclePageIndicator indicator = findViewById(R.id.CirclePageIndicatorInUserPostView);
         indicator.setViewPager(viewPager);
         final float density = getResources().getDisplayMetrics().density;
         indicator.setRadius(5 * density);
     }
-
 
     public void setFoundItemData(FoundItemPost foundItemData) {
         itemRewardTV.setVisibility(View.GONE);
@@ -162,6 +188,93 @@ public class UserPostViewActivity extends AppCompatActivity {
         {
             getItemPostImageInformationFromServer(foundItemData.getUserName(),foundItemData.getPostDateAndTime());
         }
+
+
+        itemCategory="FoundItem";
+        howManyImage=foundItemData.getHowManyImage();
+        userName=foundItemData.getUserName();
+        postDateAndTime= foundItemData.getPostDateAndTime();
+
+    }
+
+    public void userPostEdit(View view) {
+        showPostEditDialog();
+    }
+
+    public void showPostEditDialog()
+    {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.user_post_update_delete);
+        dialog.setCancelable(true);
+        LinearLayout updatePost = dialog.findViewById(R.id.updatePost);
+        LinearLayout deletePost = dialog.findViewById(R.id.deletePost);
+        updatePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(UserPostViewActivity.this,UserPostCreationActivity.class);
+                if (cameFromWhere.contains("FoundFragmentUserProfileActivity"))
+                {
+                    intent.putExtra("cameFromWhere","FoundFragmentUserProfileActivity");
+                    intent.putExtra("FoundItemData",foundItemPost);
+                }
+                else if (cameFromWhere.contains("LostFragmentUserProfileActivity"))
+                {
+                    intent.putExtra("cameFromWhere","LostFragmentUserProfileActivity");
+                    intent.putExtra("LostItemData",lostItemPost);
+                }
+                if (imageNameList.size()>0)
+                {
+                    intent.putStringArrayListExtra("imageNameList",imageNameList);
+                }
+                UserPostViewActivity.this.startActivity(intent);
+                UserPostViewActivity.this.overridePendingTransition(R.anim.left_in,R.anim.left_out);
+            }
+        });
+
+        deletePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUserPostFromServer();
+            }
+        });
+        dialog.show();
+    }
+
+    public void deleteUserPostFromServer()
+    {
+
+        ApiConfig apiConfig = AppConfig.getRetrofit().create(ApiConfig.class);
+        Call<ServerResponse> serverResponseCall = apiConfig.deleteUserPost(userName,itemCategory,howManyImage,postDateAndTime, new Gson().toJson(imageNameList));
+        Log.i("userNameToDelete",userName);
+        Log.i("itemCategoryToDelete",itemCategory);
+        Log.i("howManyImageToDelete",howManyImage);
+        Log.i("postDateAndTimeToDelete",postDateAndTime);
+        Log.i("imagePathToDelete",Integer.toString(imageNameList.size()));
+        Log.i("imagePathStrToDelete",new Gson().toJson(imageNameList));
+        serverResponseCall.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                ServerResponse serverResponse=response.body();
+                String s=serverResponse.getMessage();
+                Log.i("retrofitPostDelete",s);
+                Toast.makeText(UserPostViewActivity.this, "delete : "+s, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.i("retrofitPostDeleteError",t.getMessage());
+                Toast.makeText(UserPostViewActivity.this, "Error : "+t.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    public void startUserProfileActivity()
+    {
+        EnterOrBackFromActivity enterOrBackFromActivity = new EnterOrBackFromActivity();
+        enterOrBackFromActivity.startUserProfileActivity(this);
+
 
     }
 }

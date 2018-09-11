@@ -20,12 +20,12 @@ import tanvir.lostandfound.PojoClass.LostItemPost;
 import tanvir.lostandfound.PojoClass.UserProfileItem;
 import tanvir.lostandfound.R;
 
-public class RecyclerAdapterForUsersAllItem extends RecyclerView.Adapter<RecyclerAdapterForUsersAllItem.RecyclerViewHolder> {
+public class RecyclerAdapterForUserrsProfile extends RecyclerView.Adapter<RecyclerAdapterForUserrsProfile.RecyclerViewHolder> {
 
     ArrayList<UserProfileItem> foundItemPostArrayList;
     Context context;
 
-    public RecyclerAdapterForUsersAllItem(ArrayList<UserProfileItem> foundItemPostArrayList, Context context) {
+    public RecyclerAdapterForUserrsProfile(ArrayList<UserProfileItem> foundItemPostArrayList, Context context) {
         this.foundItemPostArrayList = foundItemPostArrayList;
         this.context = context;
     }
@@ -85,12 +85,12 @@ public class RecyclerAdapterForUsersAllItem extends RecyclerView.Adapter<Recycle
                     Intent myIntent = new Intent(activity, UserPostViewActivity.class);
                     if (foundItemPostArrayList.get(position).getItemCatagory().contains("FoundItem"))
                     {
-                        myIntent.putExtra("cameFromWhere","FoundFragment");
+                        myIntent.putExtra("cameFromWhere","FoundFragmentUserProfileActivity");
                         myIntent.putExtra("userFoundItemPostData",getFoundItemPost(foundItemPostArrayList.get(position)));
                     }
                     else
                     {
-                        myIntent.putExtra("cameFromWhere","LostFragment");
+                        myIntent.putExtra("cameFromWhere","LostFragmentUserProfileActivity");
                         myIntent.putExtra("userLostItemPostData",getLostItemPost(foundItemPostArrayList.get(position)));
                     }
                     activity.startActivity(myIntent);

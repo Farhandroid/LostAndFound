@@ -1,6 +1,7 @@
 package tanvir.lostandfound.Activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telecom.Call;
@@ -45,6 +46,7 @@ public class UserLoginActivity extends AppCompatActivity {
         passwordET=findViewById(R.id.userLoginPasswordET);
         context=UserLoginActivity.this;
         progressDialog=new ProgressDialog(context);
+        checkIfUserAlreadyLoggedIn();
 
     }
 
@@ -73,7 +75,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     if (message.contains("login_successful"))
                     {
                         UserLoginInformationSP userLoginInformationSP=new UserLoginInformationSP(context);
-                        userLoginInformationSP.putUserInformationToSP(loggedUserInformation.getUserName(),loggedUserInformation.getEmailAddress(),loggedUserInformation.getEmailAddress(),loggedUserInformation.getIsUserUploadedProfilePicture());
+                        userLoginInformationSP.putUserInformationToSP(loggedUserInformation.getUserName(),loggedUserInformation.getEmailAddress(),loggedUserInformation.getPhoneNumber(),loggedUserInformation.getIsUserUploadedProfilePicture());
                         Toast.makeText(context, "Log In Successful ", Toast.LENGTH_SHORT).show();
                         EnterOrBackFromActivity enterOrBackFromActivity=new EnterOrBackFromActivity();
                         enterOrBackFromActivity.startHomePageActivity(UserLoginActivity.this);
@@ -94,6 +96,19 @@ public class UserLoginActivity extends AppCompatActivity {
         else
         {
             Toast.makeText(context, "Please Provide All Information", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkIfUserAlreadyLoggedIn()
+    {
+        Log.i("checkIfUserLoggedIn","checkIfUserAlreadyLoggedIn");
+        SharedPreferences sharedPreferences = UserLoginActivity.this.getSharedPreferences("UserLoginInformation",Context.MODE_PRIVATE);
+        String s =sharedPreferences.getString("userName","");
+        Log.d("userNameSP",s);
+        if (s.length()>0)
+        {
+            EnterOrBackFromActivity enterOrBackFromActivity = new EnterOrBackFromActivity();
+            enterOrBackFromActivity.startHomePageActivity(this);
         }
     }
 }

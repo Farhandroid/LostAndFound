@@ -13,9 +13,9 @@ public class PinVerificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        /*setContentView(R.layout.activity_pin_verification);
-        OTPverificationTV=findViewById(R.id.OTPverificationTV);
+        ///setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_pin_verification);
+        /*OTPverificationTV=findViewById(R.id.OTPverificationTV);
         OTPverificationTV.setText(Html.fromHtml(getString(R.string.OTPVerification)));*/
     }
 }

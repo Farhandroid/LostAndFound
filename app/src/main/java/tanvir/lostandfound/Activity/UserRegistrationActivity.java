@@ -16,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -24,27 +23,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
-import com.stfalcon.frescoimageviewer.ImageViewer;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,9 +45,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import tanvir.lostandfound.HelperClass.EnterOrBackFromActivity;
-import tanvir.lostandfound.HelperClass.MySingleton;
 import tanvir.lostandfound.HelperClass.ProgressDialog;
-import tanvir.lostandfound.HelperClass.ServerResponse;
+import tanvir.lostandfound.PojoClass.ServerResponse;
 import tanvir.lostandfound.Networking.ApiConfig;
 import tanvir.lostandfound.Networking.AppConfig;
 import tanvir.lostandfound.R;
@@ -210,7 +198,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 {
                     String filepath = getRealPathFromDocumentUri(context, imagePath.get(0));
                     cameraFile = new File(filepath);
-                    Log.d("imagePath", imagePath.toString());
+                    Log.d("imageNameList", imagePath.toString());
                 }
                 isThereAnyProfilePictureSelected=true;
                 Glide.with(context).load(imagePath.get(0)).into(circleImageView);

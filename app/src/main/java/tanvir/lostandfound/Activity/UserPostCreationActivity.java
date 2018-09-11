@@ -25,6 +25,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.gson.Gson;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
@@ -43,10 +44,12 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Callback;
-import tanvir.lostandfound.Adapter.SwipeAdapter;
+import tanvir.lostandfound.Adapter.SwipeAdapterForPostCreaion;
 import tanvir.lostandfound.HelperClass.EnterOrBackFromActivity;
 import tanvir.lostandfound.HelperClass.ProgressDialog;
-import tanvir.lostandfound.HelperClass.ServerResponse;
+import tanvir.lostandfound.PojoClass.FoundItemPost;
+import tanvir.lostandfound.PojoClass.LostItemPost;
+import tanvir.lostandfound.PojoClass.ServerResponse;
 import tanvir.lostandfound.Networking.ApiConfig;
 import tanvir.lostandfound.Networking.AppConfig;
 import tanvir.lostandfound.R;
@@ -54,16 +57,16 @@ import tanvir.lostandfound.R;
 public class UserPostCreationActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    SwipeAdapter customSwipeAdapter;
+    SwipeAdapterForPostCreaion customSwipeAdapterForPostCreaion;
     private Context context;
     private EditText itemTimeET, itemDateET, itemPlaceET, itemTypeET, itemRewardET, itemDetailedDescriptionET;
-    private String itemTime, itemDate, itemPlace, itemType, itemReward, itemDetailedDescription;
+    private String itemTime, itemDate, itemPlace, itemType, itemReward, itemDetailedDescription, itemPlaceAdress, itemPlaceName, postDateAndTime;
     static final int PLACE_PICKER_REQUEST = 1;
-    private String itemPlaceAdress, itemPlaceName;
     ProgressDialog progressDialog;
-    private ArrayList<Uri> imagePath;
+    private ArrayList<Uri> imagePath, imageToUploadForPostUpdate;
+    private ArrayList<String> imageToDeleteForUpdatePost, imageNameListForPostUpdate;
     Dialog dialog;
-    private String postDateAndTime , cameFromWhere;
+    private String cameFromWhere;
     static final int REQUEST_IMAGE_CAPTURE_USING_CAMERA = 2;
     private File cameraFile;
 
@@ -78,8 +81,11 @@ public class UserPostCreationActivity extends AppCompatActivity {
         itemTypeET = findViewById(R.id.LostItemTypeET);
         itemRewardET = findViewById(R.id.LostItemRewardET);
         itemDetailedDescriptionET = findViewById(R.id.lostItemTimeETDetailedDescriptionET);
-        itemDetailedDescriptionET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE| InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        itemDetailedDescriptionET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         imagePath = new ArrayList<>();
+        imageToDeleteForUpdatePost = new ArrayList<>();
+        imageToUploadForPostUpdate = new ArrayList<>();
+        imageNameListForPostUpdate=new ArrayList<>();
         progressDialog = new ProgressDialog(context);
         viewPager = findViewById(R.id.viewPagerInUserPostCreation);
         getCameFromWhereFromIntent();
@@ -87,8 +93,18 @@ public class UserPostCreationActivity extends AppCompatActivity {
     }
 
     public void initialView() {
-        customSwipeAdapter = new SwipeAdapter(this, imagePath);
-        viewPager.setAdapter(customSwipeAdapter);
+        if (cameFromWhere.contains("FoundFragmentUserProfileActivity") || cameFromWhere.contains("LostFragmentUserProfileActivity")) {
+            String itemCategory;
+            if (cameFromWhere.contains("FoundFragmentUserProfileActivity"))
+                itemCategory="FoundItem";
+            else
+                itemCategory="LostItem";
+            customSwipeAdapterForPostCreaion = new SwipeAdapterForPostCreaion(imageNameListForPostUpdate,this, true,itemCategory);
+        } else {
+            customSwipeAdapterForPostCreaion = new SwipeAdapterForPostCreaion(this, imagePath, true);
+        }
+
+        viewPager.setAdapter(customSwipeAdapterForPostCreaion);
         CirclePageIndicator indicator = findViewById(R.id.CirclePageIndicatorInUserPostCreation);
         indicator.setViewPager(viewPager);
         final float density = getResources().getDisplayMetrics().density;
@@ -158,9 +174,7 @@ public class UserPostCreationActivity extends AppCompatActivity {
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
-
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
@@ -176,26 +190,22 @@ public class UserPostCreationActivity extends AppCompatActivity {
             cameraFile = file;
             if (file.exists()) {
                 imagePath.add(Uri.fromFile(file));
-                customSwipeAdapter.notifyDataSetChanged();
-            } else
-                Log.d("fileNotExist", "fileNotExist");
+                customSwipeAdapterForPostCreaion.notifyDataSetChanged();
+            } else Log.d("fileNotExist", "fileNotExist");
         } else if (requestCode == Define.ALBUM_REQUEST_CODE && resultCode == RESULT_OK) {
             try {
                 ArrayList<Uri> uriArrayList;
                 uriArrayList = data.getParcelableArrayListExtra(Define.INTENT_PATH);
                 imagePath.addAll(uriArrayList);
-                customSwipeAdapter.notifyDataSetChanged();
-                if (uriArrayList == null)
-                    Log.d("uriArrayListIsNull", "uriArrayListIsNull");
-                else
-                    Log.d("uriArrayList size : ", Integer.toString(uriArrayList.size()));
+                customSwipeAdapterForPostCreaion.notifyDataSetChanged();
+                if (uriArrayList == null) Log.d("uriArrayListIsNull", "uriArrayListIsNull");
+                else Log.d("uriArrayList size : ", Integer.toString(uriArrayList.size()));
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d("errorInImagePath", e.toString());
             }
 
-        } else
-            Log.d("cameraCancelled", "cameraCancelled");
+        } else Log.d("cameraCancelled", "cameraCancelled");
     }
 
     public void sendUserLostItemDataToServer(View view) {
@@ -225,8 +235,7 @@ public class UserPostCreationActivity extends AppCompatActivity {
         takePictureWithCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dialog.isShowing())
-                    dialog.dismiss();
+                if (dialog.isShowing()) dialog.dismiss();
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File file = getFile();
@@ -238,16 +247,9 @@ public class UserPostCreationActivity extends AppCompatActivity {
         takePictureFromGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dialog.isShowing())
-                    dialog.dismiss();
+                if (dialog.isShowing()) dialog.dismiss();
 
-                FishBun.with(UserPostCreationActivity.this)
-                        .setImageAdapter(new GlideAdapter())
-                        .setMaxCount(10)
-                        .setCamera(true)
-                        .setActionBarColor(Color.parseColor("#607D8B"), Color.parseColor("#607D8B"), false)
-                        .setActionBarTitleColor(Color.parseColor("#ffffff"))
-                        .startAlbum();
+                FishBun.with(UserPostCreationActivity.this).setImageAdapter(new GlideAdapter()).setMaxCount(10).setCamera(true).setActionBarColor(Color.parseColor("#607D8B"), Color.parseColor("#607D8B"), false).setActionBarTitleColor(Color.parseColor("#ffffff")).startAlbum();
 
             }
         });
@@ -272,8 +274,7 @@ public class UserPostCreationActivity extends AppCompatActivity {
         String imgId = m.group();
         String[] column = {MediaStore.Images.Media.DATA};
         String sel = MediaStore.Images.Media._ID + "=?";
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                column, sel, new String[]{imgId}, null);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, sel, new String[]{imgId}, null);
         int columnIndex = cursor.getColumnIndex(column[0]);
         if (cursor.moveToFirst()) {
             filePath = cursor.getString(columnIndex);
@@ -284,11 +285,9 @@ public class UserPostCreationActivity extends AppCompatActivity {
 
     public String validateUserPostItemInformation() {
 
-        if(cameFromWhere.contains("LostFragment"))
-        {
+        if (cameFromWhere.contains("LostFragment")) {
             itemReward = itemRewardET.getText().toString();
-            if(!(itemReward.length() > 0))
-            {
+            if (!(itemReward.length() > 0)) {
                 return "notFilled";
             }
         }
@@ -298,10 +297,9 @@ public class UserPostCreationActivity extends AppCompatActivity {
         itemDate = itemDateET.getText().toString();
         itemType = itemTypeET.getText().toString();
 
-        if (itemType.length() > 0 && itemTime.length() > 0  && itemDate.length() > 0 && itemPlace.length() > 0 && itemDetailedDescription.length() > 0) {
+        if (itemType.length() > 0 && itemTime.length() > 0 && itemDate.length() > 0 && itemPlace.length() > 0 && itemDetailedDescription.length() > 0) {
             return "filled";
-        } else
-            return "notFilled";
+        } else return "notFilled";
     }
 
 
@@ -309,11 +307,10 @@ public class UserPostCreationActivity extends AppCompatActivity {
 
         String result = validateUserPostItemInformation();
         if (result.contains("filled")) {
-            if (cameFromWhere.contains("LostFragment"))
-                uploadLostItemPostData();
-            else if (cameFromWhere.contains("FoundFragment"))
-            {
+            if (cameFromWhere.contains("LostFragment")) uploadLostItemPostData();
+            else if (cameFromWhere.contains("FoundFragment")) {
                 uploadFoundItemPostData();
+                //sendArrayListToServer();
             }
 
         } else {
@@ -336,11 +333,7 @@ public class UserPostCreationActivity extends AppCompatActivity {
                 }
 
                 try {
-                    file = new Compressor(this)
-                            .setMaxWidth(640)
-                            .setMaxHeight(480)
-                            .setQuality(60)
-                            .compressToFile(file);
+                    file = new Compressor(this).setMaxWidth(640).setMaxHeight(480).setQuality(60).compressToFile(file);
                     fileArrayList.add(file);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -354,23 +347,52 @@ public class UserPostCreationActivity extends AppCompatActivity {
     public void getCameFromWhereFromIntent() {
         try {
             cameFromWhere = getIntent().getStringExtra("cameFromWhere");
-            Log.d("cameFromWhere",cameFromWhere);
-            if (cameFromWhere.contains("FoundFragment"))
-            {
+            Log.d("cameFromWhere", cameFromWhere);
+            if (cameFromWhere.contains("FoundFragment") || cameFromWhere.contains("FoundFragmentUserProfileActivity")) {
                 itemRewardET.setVisibility(View.GONE);
-            }
-            else if (cameFromWhere.contains("LostFragment"))
-                itemRewardET.setVisibility(View.VISIBLE);
+                if (cameFromWhere.contains("FoundFragmentUserProfileActivity")) {
+                    try {
+                        FoundItemPost foundItemPost = (FoundItemPost) getIntent().getSerializableExtra("FoundItemData");
+                        setFoundItemDataForPostUpdate(foundItemPost);
+                        if (getIntent().getStringArrayListExtra("imageNameList")!=null)
+                        {
+                            imageNameListForPostUpdate=getIntent().getStringArrayListExtra("imageNameList");
+                            Log.d("imageNameListSize",Integer.toString(imageNameListForPostUpdate.size()));
+                            customSwipeAdapterForPostCreaion.notifyDataSetChanged();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.i("intentError", e.toString());
+                    }
 
+                }
+            } else if (cameFromWhere.contains("LostFragment")) {
+
+                try {
+                    LostItemPost lostItemPost = (LostItemPost) getIntent().getSerializableExtra("LostItemData");
+                    setLostItemDataForPostUpdate(lostItemPost);
+                    if (getIntent().getStringArrayListExtra("imageNameList")!=null)
+                    {
+                        imageNameListForPostUpdate=getIntent().getStringArrayListExtra("imageNameList");
+                        Log.d("imageNameListSize",Integer.toString(imageNameListForPostUpdate.size()));
+                        customSwipeAdapterForPostCreaion.notifyDataSetChanged();
+                        //initialView();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("intentError", e.toString());
+                }
+
+                itemRewardET.setVisibility(View.VISIBLE);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("errorCameFromWhere",e.toString());
+            Log.d("errorCameFromWhere", e.toString());
         }
     }
 
-    public void uploadLostItemPostData()
-    {
+    public void uploadLostItemPostData() {
         progressDialog.showProgressDialog("Uploding...", true);
         ArrayList<File> fileArrayList = getFileArrayList();
         ArrayList<MultipartBody.Part> partArrayList = new ArrayList<>();
@@ -381,9 +403,9 @@ public class UserPostCreationActivity extends AppCompatActivity {
             partArrayList.add(fileToUpload);
         }
 
-        RequestBody postDateAndTimeRB = RequestBody.create(MediaType.parse("text/plain"),postDateAndTime);
+        RequestBody postDateAndTimeRB = RequestBody.create(MediaType.parse("text/plain"), postDateAndTime);
         RequestBody lostItemTypeRB = RequestBody.create(MediaType.parse("text/plain"), itemType);
-        RequestBody userNameRB = RequestBody.create(MediaType.parse("text/plain"),"farhan");
+        RequestBody userNameRB = RequestBody.create(MediaType.parse("text/plain"), "farhan");
         RequestBody placeNameRB = RequestBody.create(MediaType.parse("text/plain"), itemPlaceName);
         RequestBody placeAddressRB = RequestBody.create(MediaType.parse("text/plain"), itemPlaceAdress);
         RequestBody dateRB = RequestBody.create(MediaType.parse("text/plain"), itemDate);
@@ -393,7 +415,7 @@ public class UserPostCreationActivity extends AppCompatActivity {
 
         ApiConfig apiConfig = AppConfig.getRetrofit().create(ApiConfig.class);
         ///retrofit2.Call<ServerResponse> call = apiConfig.sendUserLostItemPostImageToServer(partArrayList, partArrayList.size(), "farhan", postDateAndTime,itemType,itemPlaceName,itemPlaceAdress,itemDate,itemTime,itemReward,itemDetailedDescription);
-        retrofit2.Call<ServerResponse> call = apiConfig.sendUserLostItemPostDataToServer(partArrayList, partArrayList.size(), userNameRB, postDateAndTimeRB,lostItemTypeRB,placeNameRB,placeAddressRB,dateRB,timeRB,rewardRB,descriptionRB);
+        retrofit2.Call<ServerResponse> call = apiConfig.sendUserLostItemPostDataToServer(partArrayList, partArrayList.size(), userNameRB, postDateAndTimeRB, lostItemTypeRB, placeNameRB, placeAddressRB, dateRB, timeRB, rewardRB, descriptionRB);
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(retrofit2.Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
@@ -413,9 +435,8 @@ public class UserPostCreationActivity extends AppCompatActivity {
         });
     }
 
-    public void uploadFoundItemPostData()
-    {
-        Log.d("EnterFound","EnterFound");
+    public void uploadFoundItemPostData() {
+        Log.d("EnterFound", "EnterFound");
         progressDialog.showProgressDialog("Uploding...", true);
         ArrayList<File> fileArrayList = getFileArrayList();
         ArrayList<MultipartBody.Part> partArrayList = new ArrayList<>();
@@ -426,9 +447,9 @@ public class UserPostCreationActivity extends AppCompatActivity {
             partArrayList.add(fileToUpload);
         }
 
-        RequestBody postDateAndTimeRB = RequestBody.create(MediaType.parse("text/plain"),postDateAndTime);
+        RequestBody postDateAndTimeRB = RequestBody.create(MediaType.parse("text/plain"), postDateAndTime);
         RequestBody lostItemTypeRB = RequestBody.create(MediaType.parse("text/plain"), itemType);
-        RequestBody userNameRB = RequestBody.create(MediaType.parse("text/plain"),"farhan");
+        RequestBody userNameRB = RequestBody.create(MediaType.parse("text/plain"), "farhan");
         RequestBody placeNameRB = RequestBody.create(MediaType.parse("text/plain"), itemPlaceName);
         RequestBody placeAddressRB = RequestBody.create(MediaType.parse("text/plain"), itemPlaceAdress);
         RequestBody dateRB = RequestBody.create(MediaType.parse("text/plain"), itemDate);
@@ -436,7 +457,7 @@ public class UserPostCreationActivity extends AppCompatActivity {
         RequestBody descriptionRB = RequestBody.create(MediaType.parse("text/plain"), itemDetailedDescription);
 
         ApiConfig apiConfig = AppConfig.getRetrofit().create(ApiConfig.class);
-        retrofit2.Call<ServerResponse> call = apiConfig.sendUserFoundItemPostDataToServer(partArrayList, partArrayList.size(), userNameRB, postDateAndTimeRB,lostItemTypeRB,placeNameRB,placeAddressRB,dateRB,timeRB,descriptionRB);
+        retrofit2.Call<ServerResponse> call = apiConfig.sendUserFoundItemPostDataToServer(partArrayList, partArrayList.size(), userNameRB, postDateAndTimeRB, lostItemTypeRB, placeNameRB, placeAddressRB, dateRB, timeRB, descriptionRB);
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(retrofit2.Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
@@ -456,4 +477,63 @@ public class UserPostCreationActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void sendArrayListToServer() {
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        stringArrayList.add("abul");
+        stringArrayList.add("mofiz");
+        stringArrayList.add("abul");
+        stringArrayList.add("abul");
+        stringArrayList.add("abul");
+        stringArrayList.add("abul");
+        stringArrayList.add("mofiz");
+
+        ///String[] stringArray = {"abul", "mofiz", "karim"};
+        String jsonString = new Gson().toJson(stringArrayList);
+        ArrayList<String> fromJson = new Gson().fromJson(jsonString, ArrayList.class);
+        Log.i("fromJson", fromJson.get(1));
+       /* ApiConfig apiConfig = AppConfig.getRetrofit().create(ApiConfig.class);
+        Call<ServerResponse> serverResponseCall = apiConfig.testArrayList(jsonString);
+        serverResponseCall.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                ServerResponse serverResponse = response.body();
+                Log.d("arrayresponse : ", serverResponse.getMessage());
+                Toast.makeText(context, "Response : " + "" + serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.d("retrofitErrorrray", "" + t.getMessage());
+                Toast.makeText(context, "Error : " + "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+    }
+
+    public void addImageToUploadForPostUpdate() {
+
+    }
+
+    public void addImageToDeleteForPostUpdate(String imageName) {
+        imageToDeleteForUpdatePost.add(imageName);
+        Log.i("imgToDlteForUpdatePost", Integer.toString(imageToDeleteForUpdatePost.size()));
+    }
+
+    public void setFoundItemDataForPostUpdate(FoundItemPost foundItemData) {
+        itemTypeET.setText(foundItemData.getWhatIsFound());
+        itemDateET.setText(foundItemData.getDayOfFound());
+        itemTimeET.setText(foundItemData.getTimeOfFound());
+        itemPlaceET.setText(foundItemData.getFoundItemPlaceName() + "\n" + foundItemData.getFoundItemAdress());
+        itemDetailedDescriptionET.setText(foundItemData.getDetailedDescription());
+    }
+
+    public void setLostItemDataForPostUpdate(LostItemPost lostItemData) {
+        itemTypeET.setText(lostItemData.getWhatIsLost());
+        itemDateET.setText(lostItemData.getDayOfLost());
+        itemTimeET.setText(lostItemData.getTimeOfLost());
+        itemPlaceET.setText(lostItemData.getLostItemPlaceName() + "\n" + lostItemData.getLostItemAdress());
+        itemDetailedDescriptionET.setText(lostItemData.getDetailedDescription());
+        itemRewardET.setText(lostItemData.getReward());
+    }
+
 }
