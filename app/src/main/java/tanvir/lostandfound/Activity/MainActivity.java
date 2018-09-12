@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
        ///enterOrBackFromActivity.startUserLoginActivity(this);
         //enterOrBackFromActivity.startuserRegistrationActivity(this);
         enterOrBackFromActivity.startUserPostCreationActivity(this);
+        Log.i("av","ab");
         //sendEmail();
     }
 
