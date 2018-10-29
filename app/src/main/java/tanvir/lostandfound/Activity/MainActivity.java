@@ -14,7 +14,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import tanvir.lostandfound.HelperClass.EnterOrBackFromActivity;
-import tanvir.lostandfound.HelperClass.MySingleton;
 import tanvir.lostandfound.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         //sendEmail();
     }
 
-    public void sendEmail() {
+    /*public void sendEmail() {
         ///String url = "http://www.farhandroid.com/testMail.php";
         String url = "http://www.farhandroid.com/phpMailer/testMail.php";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         MySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
-
+*/
     public void startPinVerificationActivity(View view) {
         enterOrBackFromActivity.startHomePageActivity(this);
     }

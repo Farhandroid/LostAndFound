@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackground"
+    tools:context=".Activity.UserPostViewActivity">
+
+   <android.support.design.widget.CoordinatorLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <RelativeLayout
+               android:id="@+id/RLpostView"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+           <android.support.v4.view.ViewPager
+               android:id="@+id/viewPagerInUserPostView"
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/user_post_view_viewpager_height"
+               android:background="@color/black">
+
+           </android.support.v4.view.ViewPager>
+           <com.viewpagerindicator.CirclePageIndicator
+               android:layout_width="match_parent"
+               android:id="@+id/CirclePageIndicatorInUserPostView"
+               android:layout_height="35dp"
+               android:layout_alignParentBottom="true"
+               android:background="#4D000000"
+               app:centered="true"
+               android:gravity="bottom"
+               android:paddingTop="8dp"
+               app:fillColor="#FFFFFF"
+               app:pageColor="@color/colorPrimaryDark"
+               app:snap="false" />
+           </RelativeLayout>
+
+           <android.support.v7.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="8dp"
+               android:layout_marginEnd="4dp"
+               android:layout_marginStart="4dp"
+               android:layout_marginTop="20dp"
+               app:cardUseCompatPadding="true"
+               app:contentPadding="8dp"
+              android:id="@+id/cardViewInUserPostActivity"
+               >
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
+                   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                   </RelativeLayout>
+                   <LinearLayout
+                       android:orientation="horizontal"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                       <de.hdodenhof.circleimageview.CircleImageView
+                           android:layout_width="@dimen/profile_icon_height_width_user_post_view"
+                           android:layout_height="@dimen/profile_icon_height_width_user_post_view"
+                           android:src="@drawable/person2"
+                           />
+                       <LinearLayout
+                           android:layout_gravity="center"
+                           android:baselineAligned="true"
+                           android:layout_marginLeft="8dp"
+                           android:orientation="vertical"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content">
+                           <TextView
+                               android:text="Farhan"
+                               android:id="@+id/userNameInPOSTview"
+                               android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                               android:textStyle="bold"
+                               android:textColor="@color/colorPrimaryDark"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                           <TextView
+                               android:id="@+id/postTimeInPOSTview"
+                               android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                               android:text="12 : 38 AM"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                           <TextView
+                               android:id="@+id/postDateInPOSTview"
+                               android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                               android:layout_width="wrap_content"
+                               android:text="26/5/11"
+                               android:layout_height="wrap_content" />
+                       </LinearLayout>
+                   </LinearLayout>
+
+                   <TextView
+                       android:id="@+id/itemTypeInPOSTview"
+                       android:layout_marginTop="5dp"
+                       android:drawableLeft="@drawable/ic_action_tag"
+                       android:text="Car"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                       android:gravity="center"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+
+                   <TextView
+                       android:layout_marginTop="2dp"
+                       android:id="@+id/itemTimeInPOSTview"
+                       android:drawableLeft="@drawable/ic_action_time_colored"
+                       android:text="12:03 PM"
+                       android:gravity="center"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+
+                   <TextView
+                       android:layout_marginTop="2dp"
+                       android:id="@+id/itemLocationInPOSTview"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                       android:drawableLeft="@drawable/ic_action_location"/>
+
+                   <TextView
+                       android:layout_marginTop="2dp"
+                       android:id="@+id/itemDateInPOSTview"
+                       android:drawableLeft="@drawable/ic_action_calender_colored"
+                       android:text="21/12/2018"
+                       android:gravity="center"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+                   <TextView
+                       android:gravity="center"
+                       android:layout_marginTop="2dp"
+                       android:id="@+id/itemRewardInPOSTview"
+                       android:drawableLeft="@drawable/ic_action_star"
+                       android:layout_width="wrap_content"
+                       android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                       android:layout_height="wrap_content" />
+
+                   <LinearLayout
+                       android:layout_marginTop="2dp"
+                       android:layout_gravity="center"
+                       android:gravity="center"
+                       android:orientation="horizontal"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+                       <ImageView
+                           android:src="@drawable/ic_action_detailes"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content" />
+                       <TextView
+                           android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                           android:id="@+id/itemtDescriptionInPOSTview"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content" />
+                   </LinearLayout>
+
+               </LinearLayout>
+
+           </android.support.v7.widget.CardView>
+
+       </LinearLayout>
+
+
+
+       <android.support.design.widget.FloatingActionButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:fabSize="mini"
+           android:scaleType="centerCrop"
+           android:clickable="true"
+           android:id="@+id/postUpdateFAB"
+           android:onClick="userPostEdit"
+           android:src="@drawable/ic_action_edit"
+           app:layout_anchorGravity="bottom|right"
+           android:layout_marginRight="10dp"
+           app:layout_anchor="@id/RLpostView"/>
+
+   </android.support.design.widget.CoordinatorLayout>
+
+</ScrollView>

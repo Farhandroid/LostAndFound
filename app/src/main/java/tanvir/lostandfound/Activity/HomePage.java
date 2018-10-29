@@ -2,6 +2,7 @@ package tanvir.lostandfound.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -15,12 +16,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import tanvir.lostandfound.Fragment.FoundFragment;
 import tanvir.lostandfound.Fragment.LostFragment;
 import tanvir.lostandfound.Adapter.ViewPagerAdapter;
 import tanvir.lostandfound.HelperClass.EnterOrBackFromActivity;
-import tanvir.lostandfound.HelperClass.ProgressDialog;
+import tanvir.lostandfound.HelperClass.UserLoginInformationSP;
 import tanvir.lostandfound.R;
 
 public class HomePage extends AppCompatActivity {
@@ -64,7 +71,6 @@ public class HomePage extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-
         lostFragmentToolBar.setVisibility(View.VISIBLE);
         foundFragmentToolBar.setVisibility(View.GONE);
 
@@ -92,6 +98,8 @@ public class HomePage extends AppCompatActivity {
             }
 
         });
+
+        setNavigationDrawerHeaderData();
 
     }
 
@@ -131,7 +139,7 @@ public class HomePage extends AppCompatActivity {
     public void startLostOrFoundPostCreationActivity(View view) {
         if (activityOnWhichFragment.contains("Lost"))
         {
-            Intent myIntent = new Intent(this, UserPostCreationActivity.class);
+            Intent myIntent = new Intent(this, UserPostCreateAndEditActivity.class);
             myIntent.putExtra("cameFromWhere","LostFragment");
             startActivity(myIntent);
             overridePendingTransition(R.anim.left_in, R.anim.left_out);
@@ -140,7 +148,7 @@ public class HomePage extends AppCompatActivity {
 
         else
         {
-            Intent myIntent = new Intent(this, UserPostCreationActivity.class);
+            Intent myIntent = new Intent(this, UserPostCreateAndEditActivity.class);
             myIntent.putExtra("cameFromWhere","FoundFragment");
             startActivity(myIntent);
             overridePendingTransition(R.anim.left_in, R.anim.left_out);
@@ -151,5 +159,28 @@ public class HomePage extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
+    }
+
+    public void startSearchPage(View view) {
+        EnterOrBackFromActivity enterOrBackFromActivity=new EnterOrBackFromActivity();
+        enterOrBackFromActivity.startSearchPageActivity(HomePage.this);
+    }
+
+    public void setNavigationDrawerHeaderData()
+    {
+        View view=navigationView.getHeaderView(0);
+        CircleImageView circleImageView=view.findViewById(R.id.userProfileImageInNavigationDrawer);
+        TextView textView=view.findViewById(R.id.userNameInNavigationDrawer);
+        SharedPreferences sharedPreferences=getSharedPreferences(UserLoginInformationSP.sharedPrefferenceName,Context.MODE_PRIVATE);
+        String userName = sharedPreferences.getString(UserLoginInformationSP.userNameSP,"");
+        textView.setText(userName);
+        RequestOptions options = new RequestOptions();
+        options.signature(new ObjectKey(System.currentTimeMillis()));
+        options.placeholder(getResources().getDrawable(R.drawable.image_blank_user_profile_icon));
+
+        Glide.with(this)
+                .load("http://www.farhandroid.com/Lost&Found/ScriptRetrofit/UserProfilePic/"+userName+".jpg")
+                .apply(options)
+                .into(circleImageView);
     }
 }

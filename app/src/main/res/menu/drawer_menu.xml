@@ -7,12 +7,17 @@
         <item
             android:id="@+id/HOmeId"
             android:title="Home"
-            android:icon="@drawable/ic_action_star"
+            android:icon="@drawable/ic_action_home"
             />
         <item
             android:id="@+id/UserProfile"
             android:title="Profile"
             android:icon="@drawable/ic_action_profile"
+            />
+        <item
+            android:id="@+id/LogOut"
+            android:title="Logout"
+            android:icon="@drawable/ic_action_log_out"
             />
     </group>
 

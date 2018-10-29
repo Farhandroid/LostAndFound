@@ -3,10 +3,13 @@
     <string name="verifyPhoneNumber"><![CDATA[Verify <b>Mobile</b>]]></string>
     <string name="alreadyAMember"><![CDATA[Already a member ? <b>Login Here .</b>]]></string>
     <string name="OTPVerification"><![CDATA[ <b>OTP </b> verification]]></string>
+    <string name="dontHaveAccount"><![CDATA[I dont have an acount yet .<b>Create one</b>]]></string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="edittext_hint"><font size="15">For how Much time you want to keep this. You can delete it before .</font></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="you_didn_t_create_any_post_create_one_"><![CDATA[You didnt create any post .<b>Create one</b>]]></string>
+    <string name="you_didn_t_create_any_post_create_one"><![CDATA[You didnt create any post .<b>Create one</b>]]></string>
 </resources>

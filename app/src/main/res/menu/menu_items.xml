@@ -9,6 +9,4 @@
         android:orderInCategory="100"
         android:title="Place Name "
         app:showAsAction="always|collapseActionView" />
-
-
 </menu>

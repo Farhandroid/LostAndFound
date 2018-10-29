@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="hint_text_size">17sp</dimen>
+    <dimen name="user_profile_image_width_height_user_profile_activity">160dp</dimen>
+    <dimen name="user_post_view_viewpager_height">350dp</dimen>
+    <dimen name="profile_icon_height_width_user_post_view">90dp</dimen>
+</resources>

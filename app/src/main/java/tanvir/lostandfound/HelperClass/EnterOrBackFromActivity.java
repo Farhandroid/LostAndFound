@@ -5,8 +5,9 @@ import android.content.Intent;
 
 import tanvir.lostandfound.Activity.HomePage;
 import tanvir.lostandfound.Activity.PinVerificationActivity;
+import tanvir.lostandfound.Activity.SearchPage;
 import tanvir.lostandfound.Activity.UserLoginActivity;
-import tanvir.lostandfound.Activity.UserPostCreationActivity;
+import tanvir.lostandfound.Activity.UserPostCreateAndEditActivity;
 import tanvir.lostandfound.Activity.UserPostViewActivity;
 import tanvir.lostandfound.R;
 import tanvir.lostandfound.Activity.UserRegistrationActivity;
@@ -33,7 +34,11 @@ public class EnterOrBackFromActivity {
         Intent myIntent = new Intent(activity, HomePage.class);
         activity.startActivity(myIntent);
         activity.overridePendingTransition(R.anim.right_in, R.anim.right_out);
-
+    }
+    public void backToUserProfileActivity(Activity activity) {
+        Intent myIntent = new Intent(activity, UserProfileActivity.class);
+        activity.startActivity(myIntent);
+        activity.overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 
     public void startuserRegistrationActivity(Activity activity) {
@@ -44,7 +49,7 @@ public class EnterOrBackFromActivity {
     }
 
     public void startUserPostCreationActivity(Activity activity) {
-        Intent myIntent = new Intent(activity, UserPostCreationActivity.class);
+        Intent myIntent = new Intent(activity, UserPostCreateAndEditActivity.class);
         activity.startActivity(myIntent);
         activity.overridePendingTransition(R.anim.left_in, R.anim.left_out);
 
@@ -76,5 +81,12 @@ public class EnterOrBackFromActivity {
         Intent myIntent = new Intent(activity, UserProfileActivity.class);
         activity.startActivity(myIntent);
         activity.overridePendingTransition(R.anim.left_in, R.anim.left_out);
+    }
+
+    public void startSearchPageActivity(Activity activity) {
+        Intent myIntent = new Intent(activity, SearchPage.class);
+        activity.startActivity(myIntent);
+        activity.overridePendingTransition(R.anim.left_in, R.anim.left_out);
+
     }
 }

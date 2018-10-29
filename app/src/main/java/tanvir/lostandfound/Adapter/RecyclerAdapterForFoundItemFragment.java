@@ -12,8 +12,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
+
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import tanvir.lostandfound.Activity.UserPostViewActivity;
 import tanvir.lostandfound.PojoClass.FoundItemPost;
 import tanvir.lostandfound.R;
@@ -22,6 +27,7 @@ public class RecyclerAdapterForFoundItemFragment extends RecyclerView.Adapter<Re
 
     ArrayList<FoundItemPost> foundItemPostArrayList;
     Context context;
+    Glide glide;
 
     public RecyclerAdapterForFoundItemFragment(ArrayList<FoundItemPost> foundItemPostArrayList, Context context) {
         this.foundItemPostArrayList = foundItemPostArrayList;
@@ -42,6 +48,35 @@ public class RecyclerAdapterForFoundItemFragment extends RecyclerView.Adapter<Re
         holder.foundItemPlaceTV.setText(foundItemPostArrayList.get(position).getFoundItemPlaceName());
         holder.postedByTV.setText(foundItemPostArrayList.get(position).getUserName());
         holder.foundItemDetailedDescriptionTV.setText(foundItemPostArrayList.get(position).getDetailedDescription());
+
+        try {
+            String postDateAndTime = foundItemPostArrayList.get(position).getPostDateAndTime();
+            int dividePosition = postDateAndTime.indexOf(" ");
+            holder.postDateTV.setText(postDateAndTime.substring(0,dividePosition));
+            int lastIndexOfColon = postDateAndTime.lastIndexOf(":");
+            int indexOfAmOrPm=postDateAndTime.length();
+            if (postDateAndTime.contains("AM"))indexOfAmOrPm=postDateAndTime.indexOf('A');
+            else indexOfAmOrPm=postDateAndTime.indexOf('P');
+            holder.postTimeTV.setText(postDateAndTime.substring(dividePosition+1,lastIndexOfColon)+" "+postDateAndTime.substring(indexOfAmOrPm));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("ErrorPostDateAndTimeRV",e.toString());
+        }
+
+        try {
+
+
+            RequestOptions options = new RequestOptions();
+            options.signature(new ObjectKey(System.currentTimeMillis()));
+            options.placeholder(R.drawable.image_blank_user_profile_icon);
+            glide.with(context)
+                    .load("http://www.farhandroid.com/Lost&Found/ScriptRetrofit/UserProfilePic/"+foundItemPostArrayList.get(position).getUserName().trim()+".jpg")
+                    .apply(options)
+                    .into(holder.circleImageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("profileImageExcptnLost",e.toString());
+        }
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder
@@ -49,8 +84,9 @@ public class RecyclerAdapterForFoundItemFragment extends RecyclerView.Adapter<Re
     {
         Context context;
         LinearLayout linearLayout;
-        TextView foundItemTypeTV,foundItemPlaceTV,foundItemRewardTV,foundItemDetailedDescriptionTV,postedByTV;
+        TextView foundItemTypeTV,foundItemPlaceTV,foundItemRewardTV,foundItemDetailedDescriptionTV,postedByTV, postDateTV , postTimeTV;;
         ArrayList<FoundItemPost> foundItemPostArrayList;
+        CircleImageView circleImageView;
         public RecyclerViewHolder(View view, final Context context, final ArrayList<FoundItemPost> foundItemPostArrayList1) {
             super(view);
             this.context=context;
@@ -62,12 +98,13 @@ public class RecyclerAdapterForFoundItemFragment extends RecyclerView.Adapter<Re
             foundItemDetailedDescriptionTV=view.findViewById(R.id.itemDetailedDescriptionTV);
             postedByTV=view.findViewById(R.id.postedByTV);
             linearLayout=view.findViewById(R.id.lostItemRVLL);
-
+            postDateTV=view.findViewById(R.id.postDateTV);
+            postTimeTV=view.findViewById(R.id.postTimeTV);
+            circleImageView=view.findViewById(R.id.imageViewInRecyclerView);
 
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     int position = getAdapterPosition();
                     Log.d("foundItemType",foundItemPostArrayList.get(position).getWhatIsFound());
                     Activity activity= (Activity) context;

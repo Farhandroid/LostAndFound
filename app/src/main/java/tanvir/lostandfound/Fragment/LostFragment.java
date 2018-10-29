@@ -29,16 +29,13 @@ import tanvir.lostandfound.HelperClass.EnterOrBackFromActivity;
  */
 public class LostFragment extends Fragment {
 
-
     EnterOrBackFromActivity enterOrBackFromActivity;
     Activity activity;
     private RecyclerView recyclerView;
     private RecyclerAdapterForLostItemFragment recyclerAdapterForLostItemFragment;
     LinearLayoutManager linearLayoutManager;
     ProgressDialog progressDialog;
-
     public LostFragment() {
-
     }
 
     @Override
@@ -77,7 +74,6 @@ public class LostFragment extends Fragment {
                 {
                     String message = lostItemPostArrayList.get(0).getMessage();
                     Log.d("retrofitResponse : ",message);
-
                     if (message.contains("DataRetrive Success"))
                     {
                         Log.d("detailedDescription",lostItemPostArrayList.get(0).getDetailedDescription());

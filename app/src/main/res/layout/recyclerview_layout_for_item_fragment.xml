@@ -106,7 +106,7 @@
 gdflk gdlsfg kldg dkgjfdsklg gjjfdslgnsfd
  fgl..."
                     android:textColor="#000000"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -114,7 +114,6 @@ gdflk gdlsfg kldg dkgjfdsklg gjjfdslgnsfd
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-
                         android:layout_marginTop="6dp"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
